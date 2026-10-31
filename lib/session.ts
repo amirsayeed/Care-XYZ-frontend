@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
+import { SESSION_COOKIE } from "@/lib/constants";
 
-export const SESSION_COOKIE = "care_session";
 const SEVEN_DAYS = 60 * 60 * 24 * 7;
 
 export async function setSessionCookie(token: string) {

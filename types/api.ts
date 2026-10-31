@@ -12,6 +12,11 @@ export interface AuthUser {
   contact: string;
 }
 
+export interface AuthResponse {
+  user: AuthUser;
+  token: string;
+}
+
 export interface Service {
   _id: string;
   title: string;
@@ -35,7 +40,9 @@ export interface Booking {
   address: string;
   totalCost: number;
   status: BookingStatus;
+  invoiceSent: boolean;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface City {
@@ -56,4 +63,13 @@ export interface Division {
 export interface LocationTree {
   _id: string;
   divisions: Division[];
+}
+
+export interface Testimonial {
+  _id: string;
+  userName: string;
+  userPhoto: string;
+  rating: number;
+  review: string;
+  date: string;
 }
