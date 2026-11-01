@@ -3,7 +3,9 @@
 Web application for **Care.xyz**, a platform for booking babysitting, elderly care, and sick-person care at home. Built with Next.js 16 (App Router), TypeScript, Tailwind CSS, and HeroUI. It connects to a separate Express API.
 
 **Live site:** https://care-xyz-frontend-one.vercel.app
+
 **Backend API:** https://care-xyz-backend-psi.vercel.app
+
 **Backend Repo:** https://github.com/amirsayeed/Care-XYZ-Backend
 
 ---
