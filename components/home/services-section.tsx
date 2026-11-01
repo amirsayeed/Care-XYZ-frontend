@@ -1,10 +1,12 @@
-import { apiFetch } from "@/lib/api";
+import { apiFetch, CATALOG_REVALIDATE } from "@/lib/api";
 import { ServiceCard } from "@/components/services/service-card";
 import type { Service } from "@/types/api";
 
 export async function ServicesSection() {
-  const services = await apiFetch<Service[]>("/api/services");
-
+  const services = await apiFetch<Service[]>("/api/services", {
+    revalidate: CATALOG_REVALIDATE,
+  });
+  
   return (
     <section id="services" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-10">
       <div className="mx-auto max-w-2xl text-center">

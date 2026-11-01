@@ -4,11 +4,15 @@ import { useActionState } from "react";
 import { Button, Description, Input, Label, TextField } from "@heroui/react";
 import { registerAction } from "@/lib/actions/auth";
 import { ErrorMessage } from "@/components/ui/form";
+import { AuthDivider, GoogleButton } from "./google-button";
 
 export function RegisterForm({ next }: { next: string }) {
   const [state, formAction, pending] = useActionState(registerAction, undefined);
 
   return (
+    <div className="space-y-6">
+    <GoogleButton next={next} />
+    <AuthDivider />
     <form action={formAction} className="space-y-5">
       <input type="hidden" name="next" value={next} />
 
@@ -54,5 +58,6 @@ export function RegisterForm({ next }: { next: string }) {
         {pending ? "Creating account..." : "Create account"}
       </Button>
     </form>
+    </div>
   );
 }

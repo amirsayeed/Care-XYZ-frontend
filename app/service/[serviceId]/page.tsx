@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { apiFetch, ApiError } from "@/lib/api";
+import { apiFetch, ApiError, CATALOG_REVALIDATE } from "@/lib/api";
 import { getSessionToken } from "@/lib/session";
 import type { Service } from "@/types/api";
 import type { Metadata } from "next";
@@ -15,8 +15,10 @@ export async function generateMetadata({
     const { serviceId } = await params;
   
     try {
-      const service = await apiFetch<Service>(`/api/services/${serviceId}`);
-  
+      const service = await apiFetch<Service>(`/api/services/${serviceId}`, {
+        revalidate: CATALOG_REVALIDATE,
+      });
+
       return {
         title: service.title,
         description: service.description,
@@ -59,7 +61,9 @@ async function ServiceContent({
 
   let service: Service;
   try {
-    service = await apiFetch<Service>(`/api/services/${serviceId}`);
+    service = await apiFetch<Service>(`/api/services/${serviceId}`, {
+      revalidate: CATALOG_REVALIDATE,
+    });
   } catch (error) {
     if (error instanceof ApiError && (error.status === 400 || error.status === 404)) {
       notFound();

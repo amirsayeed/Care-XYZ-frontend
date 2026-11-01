@@ -5,9 +5,17 @@ import { SUPPORT_EMAIL } from "@/lib/site";
 
 const linkClass = "transition hover:text-white";
 
-function FooterColumn({ title, children }: { title: string; children: ReactNode }) {
+function FooterColumn({
+  title,
+  id,
+  children,
+}: {
+  title: string;
+  id?: string;
+  children: ReactNode;
+}) {
   return (
-    <div>
+    <div id={id} className="scroll-mt-24">
       <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
         {title}
       </h3>
@@ -50,7 +58,7 @@ export function SiteFooter() {
           </Suspense>
         </FooterColumn>
 
-        <FooterColumn title="Contact">
+        <FooterColumn title="Contact" id="contact">
           <li>
             <a href={`mailto:${SUPPORT_EMAIL}`} className={linkClass}>
               {SUPPORT_EMAIL}

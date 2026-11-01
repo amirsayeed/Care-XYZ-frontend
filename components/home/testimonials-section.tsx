@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, CATALOG_REVALIDATE  } from "@/lib/api";
 import type { Testimonial } from "@/types/api";
 
 function Stars({ rating }: { rating: number }) {
@@ -14,8 +14,10 @@ function Stars({ rating }: { rating: number }) {
 }
 
 export async function TestimonialsSection() {
-  const testimonials = await apiFetch<Testimonial[]>("/api/testimonials");
-
+  const testimonials = await apiFetch<Testimonial[]>("/api/testimonials", {
+    revalidate: CATALOG_REVALIDATE,
+  });
+  
   return (
     <section className="bg-gray-50 px-6 py-10">
       <div className="mx-auto max-w-6xl">

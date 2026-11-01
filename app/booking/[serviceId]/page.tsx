@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { apiFetch, ApiError } from "@/lib/api";
+import { apiFetch, ApiError, CATALOG_REVALIDATE } from "@/lib/api";
 import { BookingForm } from "@/components/booking/booking-form";
 import type { LocationTree, Service } from "@/types/api";
 
@@ -16,8 +16,8 @@ async function BookingContent({
 
   try {
     [service, locations] = await Promise.all([
-      apiFetch<Service>(`/api/services/${serviceId}`),
-      apiFetch<LocationTree>("/api/locations"),
+      apiFetch<Service>(`/api/services/${serviceId}`, { revalidate: CATALOG_REVALIDATE }),
+      apiFetch<LocationTree>("/api/locations", { revalidate: CATALOG_REVALIDATE }),
     ]);
   } catch (error) {
     if (error instanceof ApiError && (error.status === 400 || error.status === 404)) {

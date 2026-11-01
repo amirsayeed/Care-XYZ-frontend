@@ -4,29 +4,41 @@ import { useActionState } from "react";
 import { Button, Input, Label, TextField } from "@heroui/react";
 import { loginAction } from "@/lib/actions/auth";
 import { ErrorMessage } from "@/components/ui/form";
+import { AuthDivider, GoogleButton } from "@/components/auth/google-button";
 
-export function LoginForm({ next }: { next: string }) {
+export function LoginForm({
+  next,
+  initialError,
+}: {
+  next: string;
+  initialError?: string;
+}) {
   const [state, formAction, pending] = useActionState(loginAction, undefined);
 
   return (
-    <form action={formAction} className="space-y-5">
-      <input type="hidden" name="next" value={next} />
+    <div className="space-y-6">
+      <GoogleButton next={next} />
+      <AuthDivider />
 
-      <TextField name="email" type="email" isRequired className="w-full">
-        <Label>Email</Label>
-        <Input placeholder="you@example.com" autoComplete="email" />
-      </TextField>
+      <form action={formAction} className="space-y-5">
+        <input type="hidden" name="next" value={next} />
 
-      <TextField name="password" type="password" isRequired className="w-full">
-        <Label>Password</Label>
-        <Input autoComplete="current-password" />
-      </TextField>
+        <TextField name="email" type="email" isRequired className="w-full">
+          <Label>Email</Label>
+          <Input placeholder="you@example.com" autoComplete="email" />
+        </TextField>
 
-      <ErrorMessage message={state?.error} />
+        <TextField name="password" type="password" isRequired className="w-full">
+          <Label>Password</Label>
+          <Input autoComplete="current-password" />
+        </TextField>
 
-      <Button type="submit" isDisabled={pending} className="w-full">
-        {pending ? "Signing in..." : "Sign in"}
-      </Button>
-    </form>
+        <ErrorMessage message={state?.error ?? initialError} />
+
+        <Button type="submit" isDisabled={pending} className="w-full">
+          {pending ? "Signing in..." : "Sign in"}
+        </Button>
+      </form>
+    </div>
   );
 }

@@ -1,6 +1,9 @@
 import type { ApiResponse } from "@/types/api";
 import { getSessionToken } from "@/lib/session";
 
+// Catalog data (services, locations, testimonials) changes rarely, so cache it for a day
+export const CATALOG_REVALIDATE = 60 * 60 * 24;
+
 export class ApiError extends Error {
   constructor(message: string, public readonly status: number) {
     super(message);
@@ -11,11 +14,13 @@ export class ApiError extends Error {
 interface ApiFetchOptions extends Omit<RequestInit, "headers"> {
   auth?: boolean;
   headers?: Record<string, string>;
+  /** Seconds to cache the response. Omit for live data such as bookings. */
+  revalidate?: number;
 }
 
 export async function apiFetch<T>(
   path: string,
-  { auth = false, headers = {}, ...init }: ApiFetchOptions = {}
+  { auth = false, headers = {}, revalidate, ...init }: ApiFetchOptions = {}
 ): Promise<T> {
   const baseUrl = process.env.API_URL;
   if (!baseUrl) {
@@ -38,7 +43,9 @@ export async function apiFetch<T>(
   const res = await fetch(`${baseUrl}${path}`, {
     ...init,
     headers: finalHeaders,
-    cache: "no-store",
+    ...(revalidate !== undefined
+      ? { next: { revalidate } }
+      : { cache: "no-store" as const }),
   });
 
   const json = (await res.json().catch(() => null)) as ApiResponse<T> | null;

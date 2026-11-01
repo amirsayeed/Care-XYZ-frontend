@@ -6,10 +6,16 @@ import { LoginForm } from "@/components/auth/login-form";
 async function LoginContent({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string }>;
+  searchParams: Promise<{ next?: string; error?: string }>;
 }) {
-  const { next } = await searchParams;
-  return <LoginForm next={next ?? "/"} />;
+  const { next, error } = await searchParams;
+
+  return (
+    <LoginForm
+      next={next ?? "/"}
+      initialError={error === "google" ? "Google sign-in failed. Please try again." : undefined}
+    />
+  );
 }
 
 export default function LoginPage({
