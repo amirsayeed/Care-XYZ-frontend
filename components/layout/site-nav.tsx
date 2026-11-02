@@ -5,6 +5,7 @@ import Link from "next/link";
 import { logoutAction } from "@/lib/actions/auth";
 import { primaryNav } from "@/lib/nav";
 import { AccountMenu, getInitials } from "@/components/layout/account-menu";
+import Image from "next/image";
 
 interface SiteNavProps {
   user: { name: string; email: string } | null;
@@ -20,9 +21,17 @@ export function SiteNav({ user }: SiteNavProps) {
   const close = () => setOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-teal-100 bg-white/80 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" onClick={close} className="text-xl font-bold text-blue-600">
+        <Link href="/" onClick={close} className="flex items-center text-xl font-bold text-blue-600">
+        <Image
+            src="/images/logo-tab.png"
+            alt="Care.xyz logo"
+            width={160}
+            height={40}
+            priority
+            className="h-12 w-auto object-cover"
+          />
           Care.xyz
         </Link>
 

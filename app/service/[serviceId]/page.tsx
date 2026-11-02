@@ -122,7 +122,7 @@ async function ServiceContent({
             </section>
           )}
 
-          <div className="mt-10 rounded-2xl bg-gray-50 p-6 ring-1 ring-gray-200">
+          <div className="mt-10 rounded-2xl bg-teal-50/80 p-6 ring-1 ring-teal-100">
             <p className="text-sm text-gray-500">Price</p>
             <p className="mt-1 text-3xl font-bold text-gray-900">
               ৳{service.hourlyRate}

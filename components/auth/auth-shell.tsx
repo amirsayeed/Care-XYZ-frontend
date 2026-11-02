@@ -13,7 +13,7 @@ export function AuthShell({
   children: ReactNode;
 }) {
   return (
-    <main className="flex min-h-[calc(100vh-5rem)] items-center justify-center bg-gray-50 px-4 py-12">
+    <main className="flex min-h-[calc(100vh-5rem)] items-center justify-center px-4 py-12">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-200">
         <Link href="/" className="text-lg font-bold text-blue-600">
           Care.xyz

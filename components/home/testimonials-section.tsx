@@ -19,7 +19,7 @@ export async function TestimonialsSection() {
   });
   
   return (
-    <section className="bg-gray-50 px-6 py-10">
+    <section className="bg-white/60 px-6 py-10">
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900">What families say</h2>

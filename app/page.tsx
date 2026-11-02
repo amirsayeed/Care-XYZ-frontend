@@ -5,6 +5,9 @@ import { ServicesSection } from "@/components/home/services-section";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import type { Metadata } from "next";
 import { HERO_IMAGE_URL } from "@/lib/site";
+import { HowItWorksSection } from "@/components/home/how-it-works-section";
+import { CtaSection } from "@/components/home/cta-section";
+import { Spinner } from "@/components/ui/spinner";
 
 export const metadata: Metadata = {
   title: {
@@ -21,7 +24,9 @@ export const metadata: Metadata = {
 };
 
 const Loading = () => (
-  <p className="py-20 text-center text-gray-500">Loading...</p>
+  <div className="flex justify-center py-20">
+    <Spinner />
+  </div>
 );
 
 export default function HomePage() {
@@ -33,9 +38,15 @@ export default function HomePage() {
       <Suspense fallback={<Loading />}>
         <ServicesSection />
       </Suspense>
+      
+      <HowItWorksSection />
 
       <Suspense fallback={<Loading />}>
         <TestimonialsSection />
+      </Suspense>
+
+      <Suspense fallback={<div className="px-6 py-10" />}>
+        <CtaSection />
       </Suspense>
     </main>
   );
