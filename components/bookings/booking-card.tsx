@@ -1,14 +1,30 @@
 "use client";
 
 import { useTransition } from "react";
+import { useFormStatus } from "react-dom";
 import Link from "next/link";
 import { Button, Modal } from "@heroui/react";
 import { cancelBookingAction } from "@/lib/actions/bookings";
+import { payBookingAction } from "@/lib/actions/payments";
 import { StatusBadge } from "@/components/bookings/status-badge";
 import type { Booking } from "@/types/api";
 
+function PayButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" isDisabled={pending}>
+      {pending ? "Redirecting..." : "Pay now"}
+    </Button>
+  );
+}
+
 export function BookingCard({ booking }: { booking: Booking }) {
-  const [pending, startTransition] = useTransition();
+  const [cancelling, startTransition] = useTransition();
+
+  const isCancelled = booking.status === "cancelled";
+  const isPaid = booking.paymentStatus === "paid";
+  const canPay = !isCancelled && !isPaid;
   const canCancel = booking.status === "pending";
 
   const handleConfirmCancel = () => {
@@ -26,7 +42,17 @@ export function BookingCard({ booking }: { booking: Booking }) {
             {booking.area}, {booking.city}, {booking.district}, {booking.division}
           </p>
         </div>
-        <StatusBadge status={booking.status} />
+
+        <div className="flex flex-col items-end gap-2">
+          <StatusBadge status={booking.status} />
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-medium ${
+              isPaid ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-600"
+            }`}
+          >
+            {isPaid ? "Paid" : "Unpaid"}
+          </span>
+        </div>
       </div>
 
       <dl className="mt-5 grid grid-cols-2 gap-4 text-sm">
@@ -50,10 +76,17 @@ export function BookingCard({ booking }: { booking: Booking }) {
           View details
         </Link>
 
+        {canPay && (
+          <form action={payBookingAction}>
+            <input type="hidden" name="bookingId" value={booking._id} />
+            <PayButton />
+          </form>
+        )}
+
         {canCancel && (
           <Modal>
-            <Button variant="secondary" isDisabled={pending}>
-              {pending ? "Cancelling..." : "Cancel booking"}
+            <Button variant="secondary" isDisabled={cancelling}>
+              {cancelling ? "Cancelling..." : "Cancel booking"}
             </Button>
 
             <Modal.Backdrop>

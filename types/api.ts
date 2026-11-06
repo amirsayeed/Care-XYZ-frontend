@@ -73,3 +73,23 @@ export interface Testimonial {
   review: string;
   date: string;
 }
+
+export type PaymentStatus = "unpaid" | "paid";
+
+export interface Booking {
+  _id: string;
+  serviceId: string;
+  serviceName: string;
+  duration: number;
+  division: string;
+  district: string;
+  city: string;
+  area: string;
+  address: string;
+  totalCost: number;
+  status: BookingStatus;
+  paymentStatus?: PaymentStatus;
+  invoiceSent: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
